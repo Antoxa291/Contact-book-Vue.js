@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -18,9 +18,9 @@ export default new Router({
       component: () => import('./views/List.vue')
     },
     {
-      path: '/contact/:name',
+      path: '/contact/:id',
       name: 'contact',
       component: () => import('./views/Contact.vue')
     }
   ]
-})
+});

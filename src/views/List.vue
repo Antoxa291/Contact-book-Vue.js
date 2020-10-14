@@ -5,12 +5,10 @@
     <div class="row">
         <div class="input-field col s6 ">
             <select ref="select" v-model="filter">
-                <option value="" disabled selected>Choose your option</option>
-                <option value="active">Active</option>
-                <option value="outdated">Outdated</option>
-                <option value="completed">Completed</option>
+                <option value="" disabled selected>Choose your filter</option>
+                <option value="active">by Name</option>
             </select>
-            <label>Status filter</label>
+            <label>Filtered view</label>
         </div>
     </div>
 
@@ -36,7 +34,7 @@
                 <td>{{contact.phone}}</td>
                 <td>
                     <router-link tag="button" class="btn btn-small blue darken-4" :to="'/contact/' + contact.id">
-                        Viev
+                        View
                     </router-link>
                 </td>
             </tr>
@@ -56,11 +54,11 @@ export default {
             return this.$store.getters.contacts
         },
         displaycontacts() {
-            return this.contacts.filter(f => {
+            return this.contacts.filter(t => {
                 if (!this.filter) {
                     return true
                 }
-                return f.status === this.filter
+                return t.status === this.filter
             })
         }
     },
