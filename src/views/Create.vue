@@ -1,15 +1,15 @@
 <template>
 <div class="row">
-    <div class="col  offset-s3">
+    <div class="col  offset-s1">
         <h1>Create new contact:</h1>
         <div class="row center">
             <form class="col s12" @submit.prevent="submitForm">
                 <div class="row center">
                     <div class="input-field col s6">
                         <i class="material-icons prefix blue-text text-darken-2">account_circle</i>
-                        <input id="first_name" v-model="first" type="text" class="validate" data-length="20" />
-                        <label for="first_name">First Name</label>
-                        <span class="character-counter" style="float: right; font-size: 12px;">{{ first.length }}/20</span>
+                        <input id="name" v-model="name" type="text" class="validate" data-length="20" />
+                        <label for="name">First Name</label>
+                        <span class="character-counter" style="float: right; font-size: 12px;">{{ name.length }}/20</span>
                     </div>
                     <div class="input-field col s6">
                         <input id="last_name" v-model="last" type="text" class="validate" data-length="20" />
@@ -29,7 +29,7 @@
 
                 <div class="row">
                     <input id="date" class="center" type="text" ref="datepicker" />
-                    <label class="center" for="date" style="float: center;">Select a birthday</label>
+                    <label class="center" for="date" style="float: center;">Select a date</label>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
@@ -49,7 +49,6 @@
                 </div>
                 <i class="material-icons prefix blue-text text-darken-2">tags</i>
                 <div class="chips blue-text text-darken-2" ref="chips"></div>
-
                 <button class="btn center blue darken-4" type="submit">
                     Add to list
                 </button>
@@ -64,21 +63,20 @@
 export default {
     name: 'create',
     data: () => ({
-        first: "",
+        name: "",
         last: "",
         address: "",
         phone: "",
         chips: null,
-        birthday: null,
+        date: null,
     }),
     mounted() {
         this.chips = M.Chips.init(this.$refs.chips, {
             placeholder: "Add some tags",
             limit: 5,
         });
-        this.birthday = M.Datepicker.init(this.$refs.datepicker, {
+        this.date = M.Datepicker.init(this.$refs.datepicker, {
             format: "dd.mm.yyyy",
-            autoClose: true,
             defaultDate: new Date(),
             setDefaultDate: false,
         });
@@ -87,13 +85,13 @@ export default {
         submitForm() {
             const contact = {
                 id: Date.now(),
-                name: this.first,
+                name: this.name,
                 lastName: this.last,
                 phone: this.phone,
-                birthday: new Date(this.birthday.date).toLocaleDateString(),
+                date: new Date(this.date.date).toLocaleDateString(),
                 address: this.address,
                 email: this.email,
-                tags: this.chips.chipsDate,
+                chips: this.chips.chipsDate,
             }
 
             this.$store.dispatch('createContact', contact)
