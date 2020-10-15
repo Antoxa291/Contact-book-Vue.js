@@ -72,10 +72,10 @@ export default {
         M.FormSelect.init(this.$refs.select)
     },
     methods: {
-        deleteСontact(idx) {
+        deleteСontact(index) {
+            const Index = contacts.findIndex(t => t.id === id)
 
-            this.$emit('delete-contact', idx);
-
+            this.$delete(this.contacts, Index)
         }
     },
     filters: {

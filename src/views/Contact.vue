@@ -93,7 +93,6 @@ export default {
         submitHandler() {
             this.$store.dispatch('updateContact', {
                 id: this.contact.id,
-
                 name: this.name,
                 lastName: this.lastName,
                 address: this.address,

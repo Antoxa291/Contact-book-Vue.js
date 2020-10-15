@@ -20,12 +20,14 @@ export default new Vuex.Store({
     },
 
 
-    deleteСontact(state, id) {
-            
-      const idx = contacts.findIndex(t => t.id === id);
-           
-      localStorage.removeItem(state.contacts[idx])
-    },
+    // deleteСontact(state, id) {
+    //   const contacts = state.contacts.concat();
+      
+    //   const idx = contacts.findIndex(t => t.id === id);
+      
+      
+    //   localStorage.removeItem(state.contacts[idx])
+    // },
 
 
     updateContact(state, { id, name, lastName, phone, date, address, email }) {
