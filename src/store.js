@@ -18,28 +18,39 @@ export default new Vuex.Store({
 
       localStorage.setItem('contacts', JSON.stringify(state.contacts))
     },
-    updateContact(state, {id, description, date}) {
-      const contacts = state.contacts.concat()
 
-      const idx = contacts.findIndex(t => t.id === id)
-      const contact = contacts[idx]
 
-      const status = new Date(date) > new Date() ? 'active' : 'outdated'
+    deleteСontact(state, id) {
+            
+      const idx = contacts.findIndex(t => t.id === id);
+           
+      localStorage.removeItem(state.contacts[idx])
+    },
 
-      contacts[idx] = {...contact, date, description, status}
 
-      state.contacts = contacts
-      localStorage.setItem('contacts', JSON.stringify(state.contacts))
+    updateContact(state, { id, name, lastName, phone, date, address, email }) {
+      const contacts = state.contacts.concat();
+
+      const idx = contacts.findIndex(t => t.id === id);
+      const contact = contacts[idx];
+      
+      contacts[idx] = { ...contact, name, lastName, phone, date, address, email };
+
+      state.contacts = contacts;
+      localStorage.setItem('contacts', JSON.stringify(state.contacts));
     },
     completeContact(state, id) {
-      const idx = state.contacts.findIndex(t => t.id === id)
-      state.contacts[idx].status = 'completed'
-      localStorage.setItem('contacts', JSON.stringify(state.contacts))
+      const idx = state.contacts.findIndex(t => t.id === id);
+      state.contacts[idx].status = 'completed';
+      localStorage.setItem('contacts', JSON.stringify(state.contacts));
     }
   },
   actions: {
     createContact({commit}, contact) {
       commit('createContact', contact)
+    },
+    deleteContact({commit}, id) {
+      commit('deleteContact', id)
     },
     updateContact({commit}, contact) {
       commit('updateContact', contact)

@@ -7,22 +7,23 @@
 
             <div class="row center">
                 <div class="input-field col s6">
+
                     <i class="material-icons prefix blue-text text-darken-2">account_circle</i>
                     <input id="name" v-model="name" type="text" class="validate" data-length="20" />
-                    <label for="name">First Name</label>
+
                     <span class="character-counter" style="float: right; font-size: 12px;">{{ name.length }}/20</span>
                 </div>
                 <div class="input-field col s6">
-                    <input id="last_name" v-model="last" type="text" class="validate" data-length="20" />
-                    <label for="last_name">Last Name</label>
-                    <span class="character-counter" style="float: right; font-size: 12px;">{{ last.length }}/20</span>
+                    <input id="last_name" v-model="lastName" type="text" class="validate" data-length="20" />
+
+                    <span class="character-counter" style="float: right; font-size: 12px;">{{ lastName.length }}/20</span>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix blue-text text-darken-2">phone</i>
                     <input id="phone" v-model="phone" type="tel" class="validate" data-length="13" />
-                    <label for="phone">Phone number</label>
+
                     <span class="helper-text" data-error="wrong" data-success="right"></span>
                     <span class="character-counter" style="float: right; font-size: 12px;">{{ phone.length }}/13</span>
                 </div>
@@ -35,26 +36,23 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix blue-text text-darken-2">mode_edit</i>
-                    <textarea id="address" v-model="address" class="materialize-textarea" data-length="240"></textarea>
-                    <label for="address">Home Address</label>
+                    <input id="address" v-model="address" class="validate" data-length="240" />
+
                     <span class="character-counter" style="float: right; font-size: 12px;">{{ address.length }}/240</span>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix blue-text text-darken-2">email</i>
-                    <input id="email" type="email" class="validate" />
-                    <label for="email">Email</label>
+                    <input id="email" v-model="email" type="email" class="validate" />
+
                     <span class="helper-text" data-error="wrong" data-success="right"></span>
                 </div>
             </div>
 
-            <i class="material-icons prefix blue-text text-darken-2">tags</i>
-            <div class="chips blue-text text-darken-2" ref="chips"></div>
-
             <div>
-                <button class="btn" type="submit" style="margin-right: 1rem;">Update</button>
-                <button class="btn blue" type="button" @click="completeContact">Complete contact</button>
+                <button class="btn" type="submit" style="margin: 0 1rem 1rem 0;">Update contact</button>
+                <button class="btn blue" type="button" @click="completeContact">Close contact</button>
             </div>
         </form>
     </div>
@@ -71,74 +69,52 @@ export default {
     },
     data: () => ({
         name: "",
-        last: "",
+        lastName: "",
         address: "",
+        email: "",
         phone: "",
-        chips: null,
         date: null,
     }),
     mounted() {
+        this.name = this.contact.name;
+        this.lastName = this.contact.lastName;
+        this.address = this.contact.address;
+        this.email = this.contact.email;
+        this.phone = this.contact.phone;
 
-        this.chips = M.Chips.init(this.$refs.chips, {
-            placeholder: 'Contact tags',
-            data: this.contact.chips
-        })
         this.date = M.Datepicker.init(this.$refs.datepicker, {
             format: 'dd.mm.yyyy',
-            defaultDate: new Date(this.data.date),
+            defaultDate: new Date(this.contact.date),
             setDefaultDate: true
         })
-        setTimeout(() => {
-            M.updateTextFields()
-        }, 0)
+
     },
     methods: {
         submitHandler() {
             this.$store.dispatch('updateContact', {
                 id: this.contact.id,
 
-                name: this.data.name
+                name: this.name,
+                lastName: this.lastName,
+                address: this.address,
+                phone: this.phone,
+                date: this.data.date,
+                email: this.email
             })
-            this.$store.dispatch('updateContact', {
-                id: this.contact.id,
 
-                lastName: this.data.last
-            })
-            this.$store.dispatch('updateContact', {
-                id: this.contact.id,
-
-                address: this.data.address
-            })
-            this.$store.dispatch('updateContact', {
-                id: this.contact.id,
-
-                phone: this.data.phone
-            })
-            this.$store.dispatch('updateContact', {
-                id: this.contact.id,
-
-                date: this.data.date
-            })
-            // this.$store.dispatch('updateContact', {
-            //     id: this.contact.id,
-
-            //     chips: this.data.chips
-            // })
             this.$router.push('/list')
         },
+
         completeContact() {
             this.$store.dispatch('completeContact', this.contact.id)
             this.$router.push('/list')
         }
     },
-    destroyed() {
+    destroyed() { //метод удаления плагинов из памяти
         if (this.date && this.date.destroy) {
             this.date.destroy()
         }
 
-        if (this.chips && this.chips.destroy) {
-            this.chips.destroy()
-        }
     }
 }
 </script>

@@ -16,7 +16,7 @@
 
     <hr>
 
-    <table v-if="contacts.length">
+    <table v-if="contacts.length" @delete-contact.prevent="deleteСontact">
         <thead>
             <tr class="blue-text text-darken-2">
                 <th>#</th>
@@ -26,16 +26,22 @@
                 <th></th>
             </tr>
         </thead>
+
         <tbody>
-            <tr v-for="(contact, idx) of displaycontacts" :key="contact.id">
+            <tr v-for="(contact, idx) of displayContacts" :key="contact.id" @delete-contact.prevent="deleteСontact">
                 <td>{{idx+1}}</td>
-                <td>{{contact.name}}</td>
-                <td>{{contact.lastName}}</td>
+                <td>{{contact.name | capitalize}}</td>
+                <td>{{contact.lastName | capitalize}}</td>
                 <td>{{contact.phone}}</td>
                 <td>
                     <router-link tag="button" class="btn btn-small blue darken-4" :to="'/contact/' + contact.id">
                         View
                     </router-link>
+                </td>
+                <td>
+                    <button class="btn btn-small red darken-3" @click="deleteСontact(idx)" type="submit">
+                        Delete
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -53,7 +59,7 @@ export default {
         contacts() {
             return this.$store.getters.contacts
         },
-        displaycontacts() {
+        displayContacts() {
             return this.contacts.filter(t => {
                 if (!this.filter) {
                     return true
@@ -64,6 +70,20 @@ export default {
     },
     mounted() {
         M.FormSelect.init(this.$refs.select)
+    },
+    methods: {
+        deleteСontact(idx) {
+
+            this.$emit('delete-contact', idx);
+
+        }
+    },
+    filters: {
+        capitalize: function (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
+        }
     }
 }
 </script>
