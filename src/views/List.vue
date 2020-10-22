@@ -1,5 +1,5 @@
 <template>
-<div class="row ">
+<div class="row">
     <h1>My contacts:</h1>
 
     <div class="row">
@@ -47,6 +47,8 @@
         </tbody>
     </table>
     <p v-else>No contacts yet :(</p>
+    <button class="btn btn-small red darken-4" @click="deleteAll()" type="submit">Delete ALL
+    </button>
 </div>
 </template>
 
@@ -66,7 +68,10 @@ export default {
                 }
                 return t.status === this.filter
             })
-        }
+        },
+        // deleteAll() {
+        //     return this.$store = null;
+        // }
     },
     mounted() {
         M.FormSelect.init(this.$refs.select)
@@ -76,6 +81,9 @@ export default {
             const Index = contacts.findIndex(t => t.id === id)
 
             this.$delete(this.contacts, Index)
+        },
+        deleteAll() {
+            return this.$store = null;
         }
     },
     filters: {
