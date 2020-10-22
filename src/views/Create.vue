@@ -12,9 +12,9 @@
                         <span class="character-counter" style="float: right; font-size: 12px;">{{ name.length }}/20</span>
                     </div>
                     <div class="input-field col s6">
-                        <input id="last_name" v-model="last" type="text" class="validate" data-length="20" />
+                        <input id="last_name" v-model="lastName" type="text" class="validate" data-length="20" />
                         <label for="last_name">Last Name</label>
-                        <span class="character-counter" style="float: right; font-size: 12px;">{{ last.length }}/20</span>
+                        <span class="character-counter" style="float: right; font-size: 12px;">{{ lastName.length }}/20</span>
                     </div>
                 </div>
                 <div class="row">
@@ -31,6 +31,7 @@
                     <input id="date" class="center" type="text" ref="datepicker" />
                     <label class="center" for="date" style="float: center;">Select a date</label>
                 </div>
+
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix blue-text text-darken-2">mode_edit</i>
@@ -39,23 +40,23 @@
                         <span class="character-counter" style="float: right; font-size: 12px;">{{ address.length }}/240</span>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="input-field col s12">
                         <i class="material-icons prefix blue-text text-darken-2">email</i>
-                        <input id="email" type="email" class="validate" />
+                        <input id="email" v-model="email" type="email" class="validate" />
                         <label for="email">Email</label>
                         <span class="helper-text" data-error="wrong" data-success="right"></span>
                     </div>
                 </div>
-                <i class="material-icons prefix blue-text text-darken-2">tags</i>
-                <div class="chips blue-text text-darken-2" ref="chips"></div>
+
                 <button class="btn center blue darken-4" type="submit">
                     Add to list
                 </button>
             </form>
         </div>
     </div>
-    <!-- -->
+
 </div>
 </template>
 
@@ -64,17 +65,14 @@ export default {
     name: 'create',
     data: () => ({
         name: "",
-        last: "",
+        lastName: "",
         address: "",
         phone: "",
-        chips: null,
+        email: "",
         date: null,
     }),
     mounted() {
-        this.chips = M.Chips.init(this.$refs.chips, {
-            placeholder: "Add some tags",
-            limit: 5,
-        });
+
         this.date = M.Datepicker.init(this.$refs.datepicker, {
             format: "dd.mm.yyyy",
             defaultDate: new Date(),
@@ -86,26 +84,24 @@ export default {
             const contact = {
                 id: Date.now(),
                 name: this.name,
-                lastName: this.last,
+                lastName: this.lastName,
                 phone: this.phone,
                 date: new Date(this.date.date).toLocaleDateString(),
                 address: this.address,
                 email: this.email,
-                chips: this.chips.chipsDate,
+
             }
 
             this.$store.dispatch('createContact', contact)
             this.$router.push('/list')
         }
     },
-    destroyed() {
+    
+    destroyed() { //метод удаления плагинов из памяти
         if (this.date && this.date.destroy) {
             this.date.destroy()
         }
 
-        if (this.chips && this.chips.destroy) {
-            this.chips.destroy()
-        }
     }
 }
 </script>
