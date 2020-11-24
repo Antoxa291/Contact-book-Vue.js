@@ -124,4 +124,7 @@ export default {
 .row {
     min-width: 400px;
 }
+.btn {
+    margin: 0 1rem 1rem 0;
+    }
 </style>
