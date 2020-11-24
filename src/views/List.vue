@@ -2,6 +2,7 @@
 <div class="row ">
     <h1>My contacts:</h1>
 
+<!-- возможность подключение фильтра контактов -->
     <div class="row">
         <div class="input-field col s6 ">
             <select ref="select" v-model="filter">
@@ -16,7 +17,7 @@
 
     <hr>
 
-    <table v-if="contacts.length" @delete-contact.prevent="deleteСontact">
+    <table v-if="contacts.length" @submit.prevent="deleteСontact">
         <thead>
             <tr class="blue-text text-darken-2">
                 <th>#</th>
@@ -28,18 +29,18 @@
         </thead>
 
         <tbody>
-            <tr v-for="(contact, idx) of displayContacts" :key="contact.id" @delete-contact.prevent="deleteСontact">
+            <tr v-for="(contact, idx) of displayContacts" :key="contact.id" >
                 <td>{{idx+1}}</td>
                 <td>{{contact.name | capitalize}}</td>
                 <td>{{contact.lastName | capitalize}}</td>
                 <td>{{contact.phone}}</td>
                 <td>
-                    <router-link tag="button" class="btn btn-small blue darken-4" :to="'/contact/' + contact.id">
+                    <router-link tag="button" class="waves-effect waves-light btn btn-small blue darken-4" :to="'/contact/' + contact.id">
                         View
                     </router-link>
                 </td>
                 <td>
-                    <button class="btn btn-small red darken-3" @click="deleteСontact(idx)" type="submit">
+                    <button class="waves-effect waves-light btn btn-small red darken-3" @click="deleteСontact(idx)" type="submit">
                         Delete
                     </button>
                 </td>
@@ -61,7 +62,7 @@ export default {
         },
         displayContacts() {
             return this.contacts.filter(t => {
-                if (!this.filter) {
+                if (!this.filter) { 
                     return true
                 }
                 return t.status === this.filter
@@ -72,10 +73,23 @@ export default {
         M.FormSelect.init(this.$refs.select)
     },
     methods: {
-        deleteСontact(index) {
-            const Index = contacts.findIndex(t => t.id === id)
+        
+        deleteСontact(idx) {
+            
+//     var contacts = JSON.parse(localStorage.getItem('contacts'))
+//     console.log(contacts);
 
-            this.$delete(this.contacts, Index)
+
+//     contacts.splice(idx, 1)
+//     localStorage.setItem('contacts', JSON.stringify(contacts))
+            this.$store.dispatch('deleteСontact', idx)
+            
+            
+            // const deletingItem = this.$store.getters.contacts
+            this.$store.getters.contacts.splice(idx, 1)
+            
+            // console.log(deletingItem)
+            
         }
     },
     filters: {
@@ -89,9 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.td {
-    max-width: 400px;
-}
+
 
 .text {
     white-space: nowrap;

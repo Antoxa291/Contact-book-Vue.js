@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                <button class="btn center blue darken-4" type="submit">
+                <button class="waves-effect waves-light btn center blue darken-4" type="submit">
                     Add to list
                 </button>
             </form>
@@ -76,7 +76,7 @@ export default {
         this.date = M.Datepicker.init(this.$refs.datepicker, {
             format: "dd.mm.yyyy",
             defaultDate: new Date(),
-            setDefaultDate: false,
+            setDefaultDate: true,
         });
     },
     methods: {
@@ -96,8 +96,9 @@ export default {
             this.$router.push('/list')
         }
     },
-    
-    destroyed() { //метод удаления плагинов из памяти
+     
+    //метод удаления плагинов из памяти
+    destroyed() { 
         if (this.date && this.date.destroy) {
             this.date.destroy()
         }

@@ -1,5 +1,6 @@
 <template>
 <div class="row">
+    <!-- отображение страницы контакта, по id с проверкой -->
     <div v-if="contact" class="col s6 offset-s1">
         <h1>{{contact.name}}</h1>
 
@@ -51,8 +52,8 @@
             </div>
 
             <div>
-                <button class="btn" type="submit" style="margin: 0 1rem 1rem 0;">Update contact</button>
-                <button class="btn blue" type="button" @click="completeContact">Close contact</button>
+                <button class="waves-effect waves-light btn" type="submit" style="margin: 0 1rem 1rem 0;">Update contact</button>
+                <button class="waves-effect waves-light btn blue" type="button" @click="closeContact">Close contact</button>
             </div>
         </form>
     </div>
@@ -84,28 +85,29 @@ export default {
 
         this.date = M.Datepicker.init(this.$refs.datepicker, {
             format: 'dd.mm.yyyy',
-            defaultDate: new Date(this.contact.date),
+            defaultDate: new Date(),
             setDefaultDate: true
         })
 
     },
     methods: {
         submitHandler() {
+            
             this.$store.dispatch('updateContact', {
                 id: this.contact.id,
                 name: this.name,
                 lastName: this.lastName,
                 address: this.address,
                 phone: this.phone,
-                date: this.data.date,
+                date: new Date(this.date.date).toLocaleDateString(),
                 email: this.email
             })
 
             this.$router.push('/list')
         },
 
-        completeContact() {
-            this.$store.dispatch('completeContact', this.contact.id)
+        closeContact() {
+            
             this.$router.push('/list')
         }
     },
