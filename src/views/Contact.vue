@@ -102,7 +102,15 @@ export default {
                 date: new Date(this.date.date).toLocaleDateString(),
                 email: this.email
             })
-
+this.$swal({icon: 'success',
+                        title: 'Contact is updated',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        
+                        })
             this.$router.push('/list')
         },
 
