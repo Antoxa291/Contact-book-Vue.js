@@ -2,7 +2,7 @@
 <div class="row ">
     <h1>My contacts:</h1>
 
-<!-- возможность подключение фильтра контактов -->
+<!-- возможность подключение фильтра контактов (как пример)-->
     <div class="row">
         <div class="input-field col s6 ">
             <select ref="select" v-model="filter">
@@ -43,6 +43,7 @@
                     <button class="waves-effect waves-light btn btn-small red darken-3" @click="deleteСontact(idx)" type="submit">
                         Delete
                     </button>
+                    
                 </td>
             </tr>
         </tbody>
@@ -75,22 +76,33 @@ export default {
     methods: {
         
         deleteСontact(idx) {
+            this.$swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    this.$store.dispatch('deleteСontact', idx);
+                     this.$swal(
+                    'Deleted!',
+                    'Your contact has been deleted.',
+                    'success'
+                    )
+                }
+            });
+          
             
-//     var contacts = JSON.parse(localStorage.getItem('contacts'))
-//     console.log(contacts);
+            // this.$store.dispatch('deleteСontact', idx)
+            // console.log(idx);
+            
+            
+        },
 
-
-//     contacts.splice(idx, 1)
-//     localStorage.setItem('contacts', JSON.stringify(contacts))
-            this.$store.dispatch('deleteСontact', idx)
-            
-            
-            // const deletingItem = this.$store.getters.contacts
-            this.$store.getters.contacts.splice(idx, 1)
-            
-            // console.log(deletingItem)
-            
-        }
+        
     },
     filters: {
         capitalize: function (value) {

@@ -89,11 +89,25 @@ export default {
                 date: new Date(this.date.date).toLocaleDateString(),
                 address: this.address,
                 email: this.email,
+                selected: false
 
             }
 
             this.$store.dispatch('createContact', contact)
             this.$router.push('/list')
+            this.$swal({icon: 'success',
+                        title: 'Contact is created',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                        })
+            
         }
     },
      

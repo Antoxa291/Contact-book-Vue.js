@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     contacts: JSON.parse(localStorage.getItem('contacts') || '[]')
-    
+
   },
   mutations: {
     createContact(state, contact) {
@@ -16,43 +16,63 @@ export default new Vuex.Store({
     },
 
 
-    deleteСontact(state, {id}) {
-      console.log(id);
-      
-      const contacts = state.contacts.concat();
-      
-      const idx = contacts.findIndex(t => t.id === id);
-      
-      
-      localStorage.removeItem(JSON.stringify(state.contacts[idx]))
+    deleteСontact(state, id) {
+      state.contacts.splice(id, 1)
+
+      // localStorage.removeItem(JSON.stringify(state.contacts[id]))
+      localStorage.setItem('contacts', JSON.stringify(state.contacts))
     },
 
 
-    updateContact(state, { id, name, lastName, phone, date, address, email }) {
+    updateContact(state, {
+      id,
+      name,
+      lastName,
+      phone,
+      date,
+      address,
+      email
+
+    }) {
       const contacts = state.contacts.concat();
 
       const idx = contacts.findIndex(t => t.id === id);
       const contact = contacts[idx];
-      
-      contacts[idx] = { ...contact, name, lastName, phone, date, address, email };
+
+      contacts[idx] = {
+        ...contact,
+        name,
+        lastName,
+        phone,
+        date,
+        address,
+        email
+
+      };
 
       state.contacts = contacts;
       localStorage.setItem('contacts', JSON.stringify(state.contacts));
     },
-    
+
   },
   actions: {
-    createContact({commit}, contact) {
+    createContact({
+      commit
+    }, contact) {
       commit('createContact', contact)
     },
-    deleteСontact({commit}, id) {
-      
-      commit('deleteСontact', id)
+    deleteСontact({
+      commit
+    }, idx) {
+
+      commit('deleteСontact', idx)
     },
-    updateContact({commit}, contact) {
+    updateContact({
+      commit
+    }, contact) {
       commit('updateContact', contact)
     },
-    
+
   },
   getters: {
     contacts: s => s.contacts,
