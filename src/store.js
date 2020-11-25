@@ -9,21 +9,20 @@ export default new Vuex.Store({
 
   },
   mutations: {
+    //store in localStorage
     createContact(state, contact) {
       state.contacts.push(contact)
 
       localStorage.setItem('contacts', JSON.stringify(state.contacts))
     },
 
-
+//delete from localStorage
     deleteСontact(state, id) {
-      state.contacts.splice(id, 1)
-
-      // localStorage.removeItem(JSON.stringify(state.contacts[id]))
+      state.contacts.splice(id, 1)    
       localStorage.setItem('contacts', JSON.stringify(state.contacts))
     },
 
-
+//update contacts in localStorage
     updateContact(state, {
       id,
       name,

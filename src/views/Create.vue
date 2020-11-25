@@ -63,6 +63,7 @@
 <script>
 export default {
     name: 'create',
+//connected variables wuth v-model
     data: () => ({
         name: "",
         lastName: "",
@@ -72,7 +73,7 @@ export default {
         date: null,
     }),
     mounted() {
-
+//datepicker from materialize
         this.date = M.Datepicker.init(this.$refs.datepicker, {
             format: "dd.mm.yyyy",
             defaultDate: new Date(),
@@ -80,6 +81,7 @@ export default {
         });
     },
     methods: {
+        //create contact from data store in localStorage
         submitForm() {
             const contact = {
                 id: Date.now(),
@@ -92,7 +94,7 @@ export default {
                 selected: false
 
             }
-
+//store in localStorage
             this.$store.dispatch('createContact', contact)
             this.$router.push('/list')
             this.$swal({icon: 'success',
@@ -108,7 +110,7 @@ export default {
         }
     },
      
-    //метод удаления плагинов из памяти
+    //free memory from plug-in
     destroyed() { 
         if (this.date && this.date.destroy) {
             this.date.destroy()

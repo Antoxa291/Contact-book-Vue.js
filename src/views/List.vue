@@ -61,6 +61,7 @@ export default {
         contacts() {
             return this.$store.getters.contacts
         },
+//filtred contact
         displayContacts() {
             return this.contacts.filter(t => {
                 if (!this.filter) { 
@@ -74,8 +75,9 @@ export default {
         M.FormSelect.init(this.$refs.select)
     },
     methods: {
-        
+//delete contact with id = idx
         deleteСontact(idx) {
+//use sweet alert
             this.$swal({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -94,16 +96,12 @@ export default {
                     )
                 }
             });
-          
-            
-            // this.$store.dispatch('deleteСontact', idx)
-            // console.log(idx);
-            
-            
+                                
         },
 
         
     },
+//add filter to show capitalize first and last name
     filters: {
         capitalize: function (value) {
             if (!value) return ''
